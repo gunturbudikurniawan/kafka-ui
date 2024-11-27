@@ -1,0 +1,109 @@
+basePath: /api/v1
+definitions:
+  user.RegisterUserInput:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      occupation:
+        type: string
+      password:
+        type: string
+    type: object
+  user.RegisterUsersInput:
+    properties:
+      users:
+        items:
+          $ref: '#/definitions/user.RegisterUserInput'
+        type: array
+    type: object
+  user.User:
+    properties:
+      avatarFileName:
+        type: string
+      createdAt:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      occupation:
+        type: string
+      passwordHash:
+        type: string
+      role:
+        type: string
+      token:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+host: localhost:8000
+info:
+  contact: {}
+  description: API dokumentasi untuk aplikasi Go Clean Architecture
+  title: Go Clean Architecture API
+  version: "1.0"
+paths:
+  /user:
+    post:
+      consumes:
+      - application/json
+      description: Endpoint untuk registrasi pengguna
+      parameters:
+      - description: Input untuk registrasi pengguna
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/user.RegisterUserInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.User'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Mendaftarkan pengguna baru
+      tags:
+      - Users
+  /users:
+    post:
+      consumes:
+      - application/json
+      description: Endpoint untuk registrasi batch pengguna
+      parameters:
+      - description: Input untuk registrasi batch pengguna
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/user.RegisterUsersInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/user.User'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Mendaftarkan banyak pengguna baru
+      tags:
+      - Users
+swagger: "2.0"
